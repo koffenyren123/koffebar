@@ -3,14 +3,14 @@
 En statusrad för [Claude Code](https://claude.com/claude-code) som visar det viktigaste på en enda rad:
 
 ```
-◆ Opus · high   mitt-repo   ctx ███▒▒▒ 42%   5h █▒▒▒▒ 18% (16:13)   7d ███▒▒ 55% (fre 03:33)   h2o 0,37 L (≈ ölburk)
+◆ Opus · high   mitt-repo   ctx ███▒▒▒ 42%   5h █▒▒▒▒ 18% (16:13)   7d ███▒▒ 55% (fre 03:33)   💧 0,37 L (≈ ölburk)
 ```
 
 - **Modell** och effort-nivå (plus `1M`-badge och `fast` när det är aktivt)
 - **Repo eller mapp** du jobbar i, samt git-worktree om du har en
 - **ctx**: hur full kontexten är, med varning vid 70 % (`fylls på`) och 85 % (`NYTT FÖNSTER`)
 - **5h** och **7d**: usage-gränserna för 5 timmar och 7 dagar, med stapel, procent och när de nollställs
-- **h2o**: ett hypotetiskt estimat av hur mycket vatten konversationen har förbrukat, i liter, med en jämförelse (tesked, ölburk, mjölkpaket, hink, badkar ... Vättern, Östersjön, Stilla havet)
+- **💧**: ett hypotetiskt estimat av hur mycket vatten konversationen har förbrukat, i liter, med en jämförelse (tesked, ölburk, mjölkpaket, hink, badkar ... Vättern, Östersjön, Stilla havet)
 
 Staplarna byter färg: grönt under 70 %, gult från 70 %, rött från 90 %.
 
@@ -51,7 +51,7 @@ Justera eller stäng av med miljövariabler i din shell-profil:
 
 ```bash
 export KOFFEBAR_L_PER_USD=0.3   # egen faktor, liter per dollar
-export KOFFEBAR_WATER=0         # dölj h2o helt
+export KOFFEBAR_WATER=0         # dölj vattendroppen helt
 ```
 
 Jämförelsen väljer det största referensobjektet som ryms i volymen och visar en multiplikator när det behövs, till exempel `5 × mjölkpaket`.

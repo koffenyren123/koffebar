@@ -2,7 +2,8 @@
 # Claude Code statusline: modell · effort · repo · matare for kontext, usage och vatten.
 #
 # Tva plattformsdetaljer:
-#  1. Endast glyfer som finns i Monaco anvands (U+2588 █, U+2592 ▒, ◆, ·).
+#  1. Endast glyfer som finns i Monaco anvands (U+2588 █, U+2592 ▒, ◆, ·), med
+#     undantag for vattendroppen 💧 som ritas fran Apple Color Emoji.
 #     Saknade glyfer substitueras fran annat typsnitt och far fel bredd.
 #  2. `var="$var<multibyte-literal>"` tappar forsta byten i denna bash.
 #     Darfor byggs staplarna med teckenbaserad substrang, aldrig loop-append.
@@ -154,7 +155,7 @@ out="$out$(gauge 5h "$h5" "$h5r" '%H:%M')$(gauge 7d "$d7" "$d7r" '%a %H:%M')"
 
 # --- vatten (hypotetiskt estimat, se jq-delen) ---
 if [ "$h2o" != "-" ]; then
-  out="$out$GAP$(printf '\033[37mh2o\033[0m \033[36m%s\033[0m' "$h2o")"
+  out="$out$GAP$(printf '💧 \033[36m%s\033[0m' "$h2o")"
   [ "$h2oref" != "-" ] && out="$out$(printf ' \033[90m(≈ %s)\033[0m' "$h2oref")"
 fi
 
