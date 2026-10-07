@@ -17,17 +17,21 @@ input=$(cat)
   IFS= read -r d7;  IFS= read -r d7r
 } <<JQ
 $(printf '%s' "$input" | jq -r '
+  # Strangfalt rensas fran radbrytningar och kontrolltecken (inkl. ESC) sa att
+  # faltordningen inte kan forskjutas och inget kan injiceras i terminalen.
+  def clean: (if type == "string" then . else tostring end)
+             | explode | map(select(. >= 32 and . != 127)) | implode;
   def pct(v): if (v|type) == "number" then (v|round|tostring) else "-" end;
   def epoch(v):
     if   (v|type) == "number" then (v|floor|tostring)
     elif (v|type) == "string" then (try (v|fromdateiso8601|tostring) catch "-")
     else "-" end;
-  (.model.display_name // "-"),
-  (.effort.level // "-"),
+  ((.model.display_name // "-") | clean),
+  ((.effort.level // "-") | clean),
   (if .fast_mode == true then "fast" else "-" end),
-  (if .workspace.repo then (.workspace.repo.owner + "/" + .workspace.repo.name) else "-" end),
-  (((.workspace.project_dir // .workspace.current_dir // "") | split("/") | map(select(length>0)) | last) // "-"),
-  (.workspace.git_worktree // "-"),
+  ((if .workspace.repo then ((.workspace.repo.owner|tostring) + "/" + (.workspace.repo.name|tostring)) else "-" end) | clean),
+  ((((.workspace.project_dir // .workspace.current_dir // "") | tostring | split("/") | map(select(length>0)) | last) // "-") | clean),
+  ((.workspace.git_worktree // "-") | clean),
   pct(.context_window.used_percentage),
   pct(.rate_limits.five_hour.used_percentage),
   epoch(.rate_limits.five_hour.resets_at),
@@ -36,7 +40,16 @@ $(printf '%s' "$input" | jq -r '
 ')
 JQ
 
-[ "$name" = "-" ] && name="okänd modell"
+# Varden som anvands i aritmetik maste vara rena heltal, annars "-".
+num_or_dash() { case "$1" in ''|*[!0-9]*) printf '%s' '-' ;; *) printf '%s' "$1" ;; esac; }
+ctx=$(num_or_dash "$ctx")
+h5=$(num_or_dash "$h5");   h5r=$(num_or_dash "$h5r")
+d7=$(num_or_dash "$d7");   d7r=$(num_or_dash "$d7r")
+
+# Tomma strangfalt (t.ex. om jq misslyckades) behandlas som saknade.
+for v in effort fast repo proj wt; do [ -z "${!v}" ] && eval "$v='-'"; done
+
+[ -z "$name" ] || [ "$name" = "-" ] && name="okänd modell"
 
 # "Opus 5 (1M context)" -> namn "Opus 5" + badge "1M"
 badge=""
