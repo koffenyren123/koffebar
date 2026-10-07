@@ -28,5 +28,5 @@ mv "$tmp" "$SETTINGS"
 echo "Klart. Starta om Claude Code så visas statusraden."
 echo
 echo "Förhandsvisning:"
-echo '{"model":{"display_name":"Opus"},"effort":{"level":"high"},"workspace":{"current_dir":"/tmp/demo"},"context_window":{"used_percentage":42},"rate_limits":{"five_hour":{"used_percentage":18,"resets_at":1790000000},"seven_day":{"used_percentage":55,"resets_at":1790300000}}}' | "$TARGET"
+echo '{"model":{"display_name":"Opus"},"effort":{"level":"high"},"workspace":{"current_dir":"/tmp/demo"},"context_window":{"used_percentage":42},"rate_limits":{"five_hour":{"used_percentage":18,"resets_at":1790000000},"seven_day":{"used_percentage":55,"resets_at":1790300000}},"cost":{"total_cost_usd":3.7}}' | "$TARGET"
 echo
